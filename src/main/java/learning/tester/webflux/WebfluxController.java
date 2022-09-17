@@ -43,9 +43,7 @@ public class WebfluxController {
     @GetMapping("flux")
     public Flux<Integer> flux() {
         Stream<Integer> stream = Stream.iterate(0, i -> i + 1).limit(100);
-
-        return Flux.interval(Duration.ofSeconds(3)).fromStream(stream);
-//        return Flux.just("Hello", "World", "!");
+        return Flux.fromStream(stream);
     }
 
     @GetMapping("webclient")
