@@ -40,16 +40,16 @@ class WebfluxTest {
         List<String> result = new ArrayList<>();
 
         Flux.just("foo", "bar", "baz")
-                .delaySubscription(Duration.ofSeconds(1))
+                .delaySubscription(Duration.ofMillis(10))
                 .subscribe(result::add);
 
         assertEquals(0, result.size());
 
         try {
-            Thread.sleep(500);
+            Thread.sleep(5);
             assertEquals(0, result.size());
 
-            Thread.sleep(1000);
+            Thread.sleep(20);
             multipleStringEquals(result, "foo", "bar", "baz");
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
