@@ -12,6 +12,14 @@ public class JavaTest {
     class StringUtilsTest {
 
         @Test
+        void hasLength() {
+            assertFalse(StringUtils.hasLength(null));
+            assertFalse(StringUtils.hasLength(""));
+            assertTrue(StringUtils.hasLength("   "));
+            assertTrue(StringUtils.hasLength("  text "));
+        }
+
+        @Test
         void hasText() {
             assertFalse(StringUtils.hasText(null));
             assertFalse(StringUtils.hasText(""));
