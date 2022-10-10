@@ -41,4 +41,26 @@ public class JavaTest {
             assertEquals("AABBAA", StringUtils.trimTrailingCharacter("AABBAABB", 'B'));
         }
     }
+
+    @Nested
+    class ErrorThrowTest {
+
+        @Test
+        void noMessage() {
+            try {
+                throw new RuntimeException();
+            } catch (RuntimeException e) {
+                assertNull(e.getMessage());
+            }
+        }
+
+        @Test
+        void withMessage() {
+            try {
+                throw new RuntimeException("message");
+            } catch (RuntimeException e) {
+                assertEquals("message", e.getMessage());
+            }
+        }
+   }
 }
