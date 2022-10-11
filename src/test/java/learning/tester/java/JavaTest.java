@@ -4,6 +4,8 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.util.StringUtils;
 
+import java.sql.SQLException;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class JavaTest {
@@ -70,5 +72,20 @@ public class JavaTest {
                 assertEquals("message", e.getMessage());
             }
         }
-   }
+
+        @Test
+        void getCause() {
+            try {
+                //given
+                throw new RuntimeException("message");
+            } catch (RuntimeException e) {
+                //when
+                e.initCause(new SQLException());
+
+                //then
+                assertTrue(e.getCause() instanceof SQLException);
+                assertFalse(e.getCause() instanceof RuntimeException);
+            }
+        }
+    }
 }
