@@ -1,6 +1,7 @@
 package learning.tester.XUnit;
 
-import java.lang.reflect.InvocationTargetException;
+import org.springframework.core.annotation.AnnotationUtils;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -10,7 +11,7 @@ public class TestSuite implements Test {
 
     public TestSuite(Class<? extends TestCase> testClass) {
         Arrays.stream(testClass.getMethods())
-                .filter(m -> m.getName().startsWith("test"))
+                .filter(m -> AnnotationUtils.findAnnotation(m, learning.tester.XUnit.annotation.Test.class) != null)
                 .forEach(m ->
                         {
                             try {
