@@ -10,17 +10,20 @@ public class TestCase {
         this.name = name;
     }
 
-    public void run() {
+    public TestResult run() {
+        TestResult result = new TestResult();
+        result.testStarted();
         setUp();
 
         try {
             Method method = getClass().getMethod(name);
             method.invoke(this);
-        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
-            throw new RuntimeException(e);
+        } catch (Exception e) {
+            result.testFailed();
         }
 
         tearDown();
+        return result;
     }
 
     public void tearDown() {
