@@ -3,10 +3,10 @@ package learning.tester.XUnit;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TestSuite {
-    List<TestCase> tests = new ArrayList<>();
+public class TestSuite implements Test {
+    List<Test> tests = new ArrayList<>();
 
-    public void add(TestCase test) {
+    public void add(Test test) {
         tests.add(test);
     }
 
