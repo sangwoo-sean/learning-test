@@ -6,22 +6,9 @@ public class TestCaseTest extends TestCase {
         super(name);
     }
 
-    WasRun wasRun;
-
-    @Override
-    public void setUp() {
-        wasRun = new WasRun("testMethod");
-    }
-
-    public void testRunning() {
-        Assert.assertEquals(false, wasRun.wasRun);
+    public void testTemplateMethod() {
+        WasRun wasRun = new WasRun("testMethod");
         wasRun.run();
-        Assert.assertEquals(true, wasRun.wasRun);
-    }
-
-    public void testSetUp() {
-        Assert.assertEquals(false, wasRun.wasSetUp);
-        wasRun.run();
-        Assert.assertEquals(true, wasRun.wasSetUp);
+        Assert.assertEquals("setUp testMethod tearDown", wasRun.log);
     }
 }
