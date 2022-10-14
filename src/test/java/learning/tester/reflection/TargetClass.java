@@ -1,5 +1,8 @@
 package learning.tester.reflection;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class TargetClass {
     private boolean result;
 
