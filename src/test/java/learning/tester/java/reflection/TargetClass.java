@@ -1,4 +1,4 @@
-package learning.tester.reflection;
+package learning.tester.java.reflection;
 
 import org.springframework.stereotype.Component;
 

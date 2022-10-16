@@ -1,7 +1,6 @@
-package learning.tester.reflection;
+package learning.tester.java.reflection;
 
 import org.junit.jupiter.api.Test;
-import org.springframework.stereotype.Component;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
@@ -38,8 +37,8 @@ class MethodTest {
         Constructor[] constructors = aClass.getConstructors();
 
         try {
-            assertEquals("public learning.tester.reflection.TargetClass()", constructors[0].toString());
-            assertEquals("public learning.tester.reflection.TargetClass(boolean)", constructors[1].toString());
+            assertEquals("public learning.tester.java.reflection.TargetClass()", constructors[0].toString());
+            assertEquals("public learning.tester.java.reflection.TargetClass(boolean)", constructors[1].toString());
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -75,7 +74,7 @@ class MethodTest {
         assertTrue(result);
         boolean result2 = Arrays.stream(methods)
                 .anyMatch(method ->
-                        method.toString().equals("public boolean learning.tester.reflection.TargetClass.isResult()"));
+                        method.toString().equals("public boolean learning.tester.java.reflection.TargetClass.isResult()"));
         assertTrue(result2);
     }
 
@@ -88,7 +87,7 @@ class MethodTest {
         assertFalse(result);
         boolean result2 = Arrays.stream(methods)
                 .anyMatch(method ->
-                        method.toString().equals("public boolean learning.tester.reflection.TargetClass.isResult()"));
+                        method.toString().equals("public boolean learning.tester.java.reflection.TargetClass.isResult()"));
         assertTrue(result2);
     }
 
@@ -101,7 +100,7 @@ class MethodTest {
     @Test
     void getName() {
         String name = TargetClass.class.getName();
-        assertEquals("learning.tester.reflection.TargetClass", name);
+        assertEquals("learning.tester.java.reflection.TargetClass", name);
     }
 
     @Test
@@ -113,6 +112,6 @@ class MethodTest {
     @Test
     void getPackage() {
         String name = TargetClass.class.getPackage().getName();
-        assertEquals("learning.tester.reflection", name);
+        assertEquals("learning.tester.java.reflection", name);
     }
 }

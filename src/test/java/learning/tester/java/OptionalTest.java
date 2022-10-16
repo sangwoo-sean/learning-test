@@ -1,4 +1,4 @@
-package learning.tester.optional;
+package learning.tester.java;
 
 import org.junit.jupiter.api.Test;
 
