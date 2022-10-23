@@ -7,8 +7,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.test.context.jdbc.Sql;
 
-import java.util.List;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
@@ -19,11 +20,15 @@ public class DataJpaTestTest {
 
     @Test
     @DisplayName("DB 연결 및 Redis 연결 테스트")
-    void contextLoad() {}
+    void contextLoad() {
+    }
 
     @Test
-    void test() {
-        List<CompanyEntity> all = companyRepository.findAll();
-        System.out.println(all.size());
+    @Sql("classpath:static/tableInit.sql")
+    void sqlScriptRunTest() {
+        CompanyEntity companyEntity = companyRepository.findById(1L).get();
+
+        assertEquals("ready_made_company_code", companyEntity.getCompanyCode());
+        assertEquals("ready_made_company_name", companyEntity.getCompanyName());
     }
 }
