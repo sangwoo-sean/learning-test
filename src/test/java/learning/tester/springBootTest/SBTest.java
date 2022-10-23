@@ -19,10 +19,27 @@ class SBTest {
 
     @Test
     @Sql("classpath:static/tableInit.sql")
-    void companyControllerTest() {
+    void restTemplate_exchange() {
         ResponseEntity<String> exchange = restTemplate.exchange("/company", HttpMethod.GET, null, String.class);
 
         assertThat(exchange.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(exchange.getBody()).isEqualTo("[{\"companyId\":1,\"companyCode\":\"ready_made_company_code\",\"companyName\":\"ready_made_company_name\"}]");
+    }
+
+    @Test
+    @Sql("classpath:static/tableInit.sql")
+    void restTemplate_getForObjectTest() {
+        String result = restTemplate.getForObject("/company", String.class);
+
+        assertThat(result).isEqualTo("[{\"companyId\":1,\"companyCode\":\"ready_made_company_code\",\"companyName\":\"ready_made_company_name\"}]");
+    }
+
+    @Test
+    @Sql("classpath:static/tableInit.sql")
+    void restTemplate_getForEntityTest() {
+        ResponseEntity<String> responseEntity = restTemplate.getForEntity("/company", String.class);
+
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(responseEntity.getBody()).isEqualTo("[{\"companyId\":1,\"companyCode\":\"ready_made_company_code\",\"companyName\":\"ready_made_company_name\"}]");
     }
 }
