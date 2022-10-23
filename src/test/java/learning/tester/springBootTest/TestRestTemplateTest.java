@@ -3,6 +3,8 @@ package learning.tester.springBootTest;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.jayway.jsonpath.DocumentContext;
+import com.jayway.jsonpath.JsonPath;
 import learning.tester.jpa.CompanyEntity;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,17 +56,27 @@ class TestRestTemplateTest {
     void restTemplate_with_objectMapper() {
         ObjectMapper objectMapper = new ObjectMapper();
 
-        ResponseEntity<String> responseEntity = restTemplate.getForEntity("/company", String.class);
+        String res = restTemplate.getForObject("/company", String.class);
 
         try {
-            List<CompanyEntity> companyEntities = objectMapper.readValue(responseEntity.getBody(), new TypeReference<List<CompanyEntity>>(){});
+            List<CompanyEntity> companyEntities = objectMapper.readValue(res, new TypeReference<List<CompanyEntity>>(){});
 
-            assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
             assertThat(companyEntities.get(0).getCompanyName()).isEqualTo("ready_made_company_name");
             assertThat(companyEntities.get(0).getCompanyCode()).isEqualTo("ready_made_company_code");
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
 
+    }
+
+    @Test
+    @Sql("classpath:static/tableInit.sql")
+    void restTemplate_with_JsonPathRead() {
+        String res = restTemplate.getForObject("/company", String.class);
+
+        DocumentContext json = JsonPath.parse(res);
+
+        assertThat((String) json.read("$[0].companyName")).isEqualTo("ready_made_company_name");
+        assertThat((String) json.read("$[0].companyCode")).isEqualTo("ready_made_company_code");
     }
 }
