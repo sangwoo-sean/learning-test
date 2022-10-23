@@ -9,7 +9,7 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.jdbc.Sql;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
@@ -28,7 +28,7 @@ public class DataJpaTestTest {
     void sqlScriptRunTest() {
         CompanyEntity companyEntity = companyRepository.findById(1L).get();
 
-        assertEquals("ready_made_company_code", companyEntity.getCompanyCode());
-        assertEquals("ready_made_company_name", companyEntity.getCompanyName());
+        assertThat(companyEntity.getCompanyCode()).isEqualTo("ready_made_company_code");
+        assertThat(companyEntity.getCompanyName()).isEqualTo("ready_made_company_name");
     }
 }
