@@ -14,5 +14,7 @@
   - java 의 기본 모듈들에 대한 학습테스트를 작성하고 있습니다.
 - springBootTest
   - `@SpringBootTest`를 통한 통합 테스트를 작성하고 있습니다.
+    - `TestRestTemplate` 을 이용하여 API 테스트를 작성합니다.
+    - `WebTestClient` 를 이용하여 API 테스트를 작성합니다.
 - webflux
   - spring webflux 에 대한 학습테스트를 작성하고 있습니다.
