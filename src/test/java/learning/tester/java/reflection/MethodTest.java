@@ -1,5 +1,6 @@
 package learning.tester.java.reflection;
 
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.lang.annotation.Annotation;
@@ -7,6 +8,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 class MethodTest {
@@ -37,8 +39,8 @@ class MethodTest {
         Constructor[] constructors = aClass.getConstructors();
 
         try {
-            assertEquals("public learning.tester.java.reflection.TargetClass()", constructors[0].toString());
-            assertEquals("public learning.tester.java.reflection.TargetClass(boolean)", constructors[1].toString());
+            assertThat(constructors[0].toString().startsWith("public learning.tester.java.reflection.TargetClass(")).isTrue();
+            assertThat(constructors[1].toString().startsWith("public learning.tester.java.reflection.TargetClass(")).isTrue();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -52,14 +54,23 @@ class MethodTest {
 
         try {
             //when
-            TargetClass targetClass1 = (TargetClass) constructors[0].newInstance();
-            TargetClass targetClass2 = (TargetClass) constructors[1].newInstance(true);
-            TargetClass targetClass3 = (TargetClass) constructors[1].newInstance(false);
+            TargetClass targetClass1;
+            TargetClass targetClass2;
+            TargetClass targetClass3;
+            if (constructors[0].toString().contains("boolean")) {
+                targetClass1 = (TargetClass) constructors[1].newInstance();
+                targetClass2 = (TargetClass) constructors[0].newInstance(true);
+                targetClass3 = (TargetClass) constructors[0].newInstance(false);
+            } else {
+                targetClass1 = (TargetClass) constructors[0].newInstance();
+                targetClass2 = (TargetClass) constructors[1].newInstance(true);
+                targetClass3 = (TargetClass) constructors[1].newInstance(false);
+            }
 
             //then
-            assertFalse(targetClass1.isResult());
-            assertTrue(targetClass2.isResult());
-            assertFalse(targetClass3.isResult());
+            assertThat(targetClass1.isResult()).isFalse();
+            assertThat(targetClass2.isResult()).isTrue();
+            assertThat(targetClass3.isResult()).isFalse();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
