@@ -1,6 +1,5 @@
 package learning.tester.java.reflection;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.lang.annotation.Annotation;
