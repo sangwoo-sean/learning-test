@@ -1,7 +1,9 @@
 spring:
   datasource:
     driver-class-name: org.h2.Driver
-    url: jdbc:h2:tcp://localhost/~/test
+#    url: jdbc:h2:tcp://localhost/~/test # 로컬용
+#    url: jdbc:h2:tcp://localhost:1521/test # 도커 컨테이너용
+    url: jdbc:h2:mem:test # 인메모리용
     username: sa
     password:
   jpa:
