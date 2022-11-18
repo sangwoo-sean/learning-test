@@ -11,7 +11,7 @@ public class ConnectionController {
     private final ConnectionPojo connectionPojo;
 
     @GetMapping("/connection")
-    public ConnectionPojo getConnection() {
-        return connectionPojo;
+    public String getConnection() {
+        return connectionPojo.getData();
     }
 }

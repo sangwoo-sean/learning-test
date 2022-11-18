@@ -8,6 +8,8 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles(profiles = "test")
 class ConnectionControllerTest {
@@ -16,43 +18,38 @@ class ConnectionControllerTest {
     private WebTestClient webTestClient;
 
     @Test
-    void test() {
+    void connectionTest() {
         webTestClient.method(HttpMethod.GET)
                 .uri("/connection")
                 .contentType(MediaType.APPLICATION_JSON)
                 .exchange()
                 .expectStatus()
                 .is2xxSuccessful()
-                .expectBody(ConnectionPojo.class)
-                .value(connectionPojo -> System.out.println("connectionPojo = " + connectionPojo));
+                .expectBody(String.class);
     }
 
     @Test
     void test2() {
+        final String[] result = {"a", "b"};
+
         webTestClient.method(HttpMethod.GET)
                 .uri("/connection")
                 .contentType(MediaType.APPLICATION_JSON)
                 .exchange()
                 .expectStatus()
                 .is2xxSuccessful()
-                .expectBody(ConnectionPojo.class)
-                .value(connectionPojo -> System.out.println("connectionPojo = " + connectionPojo.getData()));
+                .expectBody(String.class)
+                .value(str -> result[0] = str);
         webTestClient.method(HttpMethod.GET)
                 .uri("/connection")
                 .contentType(MediaType.APPLICATION_JSON)
                 .exchange()
                 .expectStatus()
                 .is2xxSuccessful()
-                .expectBody(ConnectionPojo.class)
-                .value(connectionPojo -> System.out.println("connectionPojo = " + connectionPojo.getData()));
-        webTestClient.method(HttpMethod.GET)
-                .uri("/connection")
-                .contentType(MediaType.APPLICATION_JSON)
-                .exchange()
-                .expectStatus()
-                .is2xxSuccessful()
-                .expectBody(ConnectionPojo.class)
-                .value(connectionPojo -> System.out.println("connectionPojo = " + connectionPojo.getData()));
+                .expectBody(String.class)
+                .value(str -> result[1] = str);
+
+        assertThat(result[0]).isNotEqualTo(result[1]); // session scope 이면 두 요청에 다른 uuid 가 생성된다
     }
 
 }
