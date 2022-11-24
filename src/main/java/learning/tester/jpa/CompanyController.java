@@ -1,6 +1,10 @@
 package learning.tester.jpa;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -8,12 +12,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor
 public class CompanyController {
 
+    private final CompanyService companyService;
     private final CompanyRepository companyRepository;
 
     @GetMapping("company")
@@ -28,4 +32,9 @@ public class CompanyController {
         return new ResponseEntity<>(companyEntity, HttpStatus.OK);
     }
 
+    @GetMapping("company/paging")
+    public ResponseEntity<?> companyPaged(@PageableDefault(sort = "companyId", direction = Sort.Direction.DESC) Pageable pageable) {
+        Page<CompanyDto> companyDtoPage = companyService.findPagedList(pageable);
+        return ResponseEntity.ok(companyDtoPage);
+    }
 }
