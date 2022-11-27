@@ -34,7 +34,13 @@ public class CompanyController {
 
     @GetMapping("company/paging")
     public ResponseEntity<?> companyPaged(@PageableDefault(sort = "companyId", direction = Sort.Direction.DESC) Pageable pageable) {
-        Page<CompanyDto> companyDtoPage = companyService.findPagedList(pageable);
+        Page<CompanyDto> companyDtoPage = companyService.findPagedDtoList(pageable);
+        return ResponseEntity.ok(companyDtoPage);
+    }
+
+    @GetMapping("company/paging/entity")
+    public ResponseEntity<?> companyPagedEntity(@PageableDefault(sort = "companyId", direction = Sort.Direction.DESC) Pageable pageable) {
+        Page<CompanyEntity> companyDtoPage = companyService.findPagedEntityList(pageable);
         return ResponseEntity.ok(companyDtoPage);
     }
 }
